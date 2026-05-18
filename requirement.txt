@@ -4,3 +4,4 @@ pdfminer.six
 scikit-learn
 numpy
 pandas
+gunicorn
