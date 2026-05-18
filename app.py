@@ -579,6 +579,15 @@ def analyze():
 
         os.makedirs('reports', exist_ok=True)
         result = analyze_pdf(tmp_path, "reports", verbose=False, json_only=True)
+        def convert_bytes(obj):
+            if isinstance(obj, bytes):
+                return obj.decode('utf-8', errors='ignore')
+            elif isinstance(obj, dict):
+                return {k: convert_bytes(v) for k, v in obj.items()}
+            elif isinstance(obj, list):
+                return [convert_bytes(i) for i in obj]
+            return obj
+        result = convert_bytes(result)
         return jsonify(result)
 
     except Exception as e:
